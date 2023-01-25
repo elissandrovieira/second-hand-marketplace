@@ -5,7 +5,11 @@ import {
     IconButton,
     Select,
     TextField,
-    Typography
+    Typography,
+    FormControl,
+    InputLabel,
+    OutlinedInput,
+    InputAdornment
 } from '@mui/material'
 
 import { Container } from '@mui/system'
@@ -158,7 +162,7 @@ const Publish = () => {
                     </Select>
                 </Box>
             </Container>
-
+            
             <Container maxWidth="md" className={classes.boxContainer}>
                 <Box className={classes.box}>
                 <Typography component="h6" variant="h6" color="textPrimary">
@@ -200,7 +204,7 @@ const Publish = () => {
                     )})}
                 </Box>
             </Container>
-            
+
             <Container maxWidth="md" className={classes.boxContainer}>
                 <Box className={classes.box}>
                 <Typography component="h6" variant="h6" color="textPrimary">
@@ -215,6 +219,23 @@ const Publish = () => {
                     variant="outlined"
                     fullWidth
                 />
+                </Box>
+            </Container>
+
+            <Container maxWidth="md" className={classes.boxContainer}>
+                <Box className={classes.box}>
+                <Typography component="h6" variant="h6" color="textPrimary">
+                    Price
+                </Typography>
+                <br />
+                <FormControl>
+                    <InputLabel>Value</InputLabel>
+                    <OutlinedInput
+                        onChange={() => {}}
+                        startAdornment={<InputAdornment position="start">€</InputAdornment>}
+                        labelWigth={40}
+                    />
+                </FormControl>
                 </Box>
             </Container>
 
