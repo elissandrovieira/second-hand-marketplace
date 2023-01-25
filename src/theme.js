@@ -1,7 +1,8 @@
-import { Roboto } from '@next/font/google'
+import { Anek_Bangla } from '@next/font/google'
 import { createTheme } from '@mui/material/styles'
+import { capitalize } from '@mui/material';
 
-export const roboto = Roboto({
+export const defaultFont = Anek_Bangla({
     weight: ['300', '400', '500', '700'],
     subsets: ['latin'],
     display: 'swap',
@@ -16,8 +17,22 @@ const theme = createTheme({
         secondary: {
             main: '#F7F7F7'
         },
-        
-    }
+    },
+
+    typography: {
+        fontFamily: defaultFont,
+        h3:{
+            fontWeight: 500,
+            textTransform: capitalize,
+        },
+        button: {
+            fontFamily: defaultFont,
+            fontWeight: 700,
+            textTransform: capitalize,
+        }
+    },
+
+
 })
 
 export default theme
