@@ -12,15 +12,23 @@ export const defaultFont = Anek_Bangla({
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#fac251'
+            main: '#fac251',
         },
         secondary: {
             main: '#F7F7F7'
+        },
+        background:{
+            default:'white',
+        },
+        textPrimary: 'black',
+        box: {
+            default: '#F7F7F7'
         },
     },
 
     typography: {
         fontFamily: defaultFont,
+        
         h3:{
             fontWeight: 500,
             textTransform: capitalize,

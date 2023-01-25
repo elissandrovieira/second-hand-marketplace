@@ -8,14 +8,13 @@ import {
   Grid,
   Typography
 } from '@mui/material'
-import { margin } from '@mui/system'
 
 import { makeStyles } from 'tss-react/mui'
 
 import TemplateDefault from '../../src/templates/Default'
 
 const useStyles = makeStyles() ((theme) => {
-  return{
+  return {
     container: {
       padding: theme.spacing(8, 0, 6),
     },
@@ -38,11 +37,11 @@ export default function Home() {
   
   return (
     <TemplateDefault>
-      <Container className={classes.container}>
+      <Container maxWidth="sm" className={classes.container}>
         <Typography component="h1" variant="h3" align='center'>
-        My Stuff For Sell
+        My Ads
         </Typography>
-        <Button variant='contained' disableElevation className={classes.buttonAdd}>Post Something Stuff</Button>
+        <Button variant='contained' disableElevation className={classes.buttonAdd}>Post new ad</Button>
       </Container>
       <Container maxWidth="md" >
         <Grid container spacing={4}>
