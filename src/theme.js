@@ -21,8 +21,10 @@ const theme = createTheme({
             default:'white',
         },
         textPrimary: 'black',
+        textSecondary: 'white',
         box: {
-            default: '#F7F7F7'
+            default: '#F7F7F7',
+            softDark: '#e6e6e6',
         },
     },
 

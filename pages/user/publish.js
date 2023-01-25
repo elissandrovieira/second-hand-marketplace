@@ -1,9 +1,19 @@
-import { Box, Button, Select, TextField, Typography } from '@mui/material'
+import { useState } from 'react'
+import {
+    Box,
+    Button,
+    IconButton,
+    Select,
+    TextField,
+    Typography
+} from '@mui/material'
+
 import { Container } from '@mui/system'
 import { makeStyles } from 'tss-react/mui'
+import { useDropzone } from 'react-dropzone'
 
+import { DeleteIcon } from '../../src/icons'
 import TemplateDefault from '../../src/templates/Default'
-import theme from '../../src/theme'
 
 const useStyles = makeStyles() ((theme) => {
     return{
@@ -17,10 +27,84 @@ const useStyles = makeStyles() ((theme) => {
             backgroundColor: theme.palette.box.default,
             padding: theme.spacing(3),
         },
+        thumbsConteiner: {
+            backgroundColor: theme.palette.box.default,
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+        dropzone: {
+            display:'flex',
+            justifyContent:'center',
+            alignItems: 'center',
+            textAlign: 'center',
+            padding: 10,
+            margin: '0 20px 20px 20px',
+            width: 200,
+            height: 150,
+            backgroundColor: theme.palette.box.softDark,
+            border: '2px dashed black',
+            cursor: 'pointer',
+        },
+        thumb: {
+            position: 'relative',
+            width: 200,
+            height: 150,
+            margin: '0 15px 15px 0',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center center',
+
+            '.mainImage': {
+                position:'absolute',
+                bottom: 0,
+                left: 0,
+                backgroundColor: theme.palette.primary.main,
+                borderRadius: '0 10px 0 0',
+                padding: '6px 10px',
+
+            },
+
+            '&:hover .mask': {
+                display: 'flex',
+            },
+
+            '.mask': {
+                display: 'none',
+                justifyContent:'center',
+                alignItems: 'center',
+                textAlign: 'center',
+                backgroundColor: '#000000b3',
+                width: '100%',
+                height: '100%',
+            },
+        }
     }
 })
+
 const Publish = () => {
     const { classes } = useStyles()
+
+    const [files, setFiles] = useState([])
+    const { getRootProps, getInputProps }  = useDropzone({
+        accept: 'image/*',
+        onDrop: (acceptedFile) => {
+          const newFiles = acceptedFile.map(file => {
+            return Object.assign(file, {
+                preview: URL.createObjectURL(file)
+            })
+          })
+
+          setFiles([
+            ...files,
+            ...newFiles
+        ])
+          
+        }
+      })
+
+      const handleRemoveFile = fileName => {
+        const newFilestate = files.filter(file => file.name !== fileName)
+        setFiles(newFilestate)
+      }
 
     return(
         <TemplateDefault>
@@ -83,6 +167,37 @@ const Publish = () => {
                 <Typography component="div" variant="body2" color="textPrimary" gutterBottom>
                     The first image is the main of your ad.
                 </Typography>
+                </Box>
+                <Box className={classes.thumbsConteiner}>
+                    <Box className={classes.dropzone} {...getRootProps()}>
+                    <input {...getInputProps()} />
+                        <Typography variant="body2" color="textPrimary">
+                            Click here to add a image, or drag and drop a image here.
+                        </Typography>
+                    </Box>
+                    {files.map((file, index) => {
+                        return (
+                        <Box
+                         key={file.name}
+                         className={classes.thumb}
+                         sx={{backgroundImage: `url(${file.preview})`, }}
+                         >
+                            {
+                                index === 0 ?
+                                <Box className="mainImage">
+                                    <Typography variant='body2'>
+                                        Main
+                                    </Typography>
+                                </Box>
+                                :null
+                            }
+                             <Box className="mask">
+                                 <IconButton color="primary" onClick={() => handleRemoveFile(file.name)}>
+                                     <DeleteIcon />
+                                 </IconButton>
+                             </Box>
+                         </Box>
+                    )})}
                 </Box>
             </Container>
             
