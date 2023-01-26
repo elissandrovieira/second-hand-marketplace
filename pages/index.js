@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { makeStyles } from 'tss-react/mui'
+
 import {
     Container,
     Typography,
@@ -12,7 +14,6 @@ import {
     CardActions,
     Button,
 } from '@mui/material'
-import { makeStyles } from 'tss-react/mui'
 
 import TemplateDefault from '../src/templates/Default'
 import {
@@ -109,12 +110,12 @@ const Home = () => {
                     />
                 </Paper>
             </Container>
-            <Container maxWidth="md" className={classes.cardGrid}>
+            <Container maxWidth="lg" className={classes.cardGrid}>
                 <Typography component="h2" variant="h4" align="center" color="textPrimary" gutterBottom>
                     Highlight Items
                 </Typography>
                 <Grid container spacing={4}>
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={6} md={3}>
                         <Card elevation={0} className={classes.card}>
                         <CardMedia
                             className={classes.cardMedia}
@@ -143,7 +144,7 @@ const Home = () => {
                         </CardActions>
                         </Card>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={6} md={3}>
                         <Card elevation={0} className={classes.card}>
                         <CardMedia
                             className={classes.cardMedia}
@@ -172,7 +173,36 @@ const Home = () => {
                         </CardActions>
                         </Card>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card elevation={0} className={classes.card}>
+                        <CardMedia
+                            className={classes.cardMedia}
+                            image={'https://source.unsplash.com/random'}
+                            title="Título"
+                        />
+                        <CardContent>
+                            <Typography variant="h5" component="h2">
+                            Produto X
+                            </Typography>
+                        </CardContent>
+                        <CardActions className={classes.cardAction}>
+                        <Typography variant="h6" component="h5" className={classes.price}>
+                            510 €
+                            </Typography>
+                            <IconButton className={classes.IconButton}>
+                                <FavoriteIcon className={classes.favIcon} onClick={() => handleChangeIcon()} />
+                                <FavoriteIconFilled
+                                    className={changeIcon.fill}
+                                    onClick={() => handleChangeIcon()}
+                                    sx={{
+                                        color: '#c92a2a'
+                                    }}
+                                />
+                            </IconButton>
+                        </CardActions>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
                         <Card elevation={0} className={classes.card}>
                         <CardMedia
                             className={classes.cardMedia}
