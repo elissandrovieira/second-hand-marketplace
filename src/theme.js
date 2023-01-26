@@ -15,17 +15,24 @@ const theme = createTheme({
             main: '#fac251',
         },
         secondary: {
-            main: '#F7F7F7'
+            main: '#ffffff'
         },
         background:{
-            default:'white',
+            default:'#f3f3f3',
         },
         textPrimary: 'black',
         textSecondary: 'white',
         box: {
-            default: '#F7F7F7',
+            default: '#ffffff',
+            dark: '#F7F7F7',
             softDark: '#e6e6e6',
         },
+        card: {
+            default: '#ffffff',
+        },
+        favIcon: {
+            fill: '#ff0000'
+        }
     },
 
     typography: {

@@ -23,9 +23,10 @@ const useStyles = makeStyles() ((theme) => {
       display: 'block'
     },
     card: {
-      background: '#f3f3f3'
+      background: theme.palette.card.default
     },
     cardMedia: {
+      margin: 10,
       paddingTop: '56%',
     }
   }
@@ -124,12 +125,6 @@ export default function Home() {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small">
-                  Edit
-                </Button>
-                <Button size="small">
-                  Remove
-                </Button>
               </CardActions>
             </Card>
           </Grid>
