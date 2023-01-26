@@ -26,7 +26,7 @@ export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" elevation="0" sx={{
-        background: theme.palette.background.white,
+        background: theme.palette.primary,
         borderBottom: '1px solid #F3F3F3'
       }}>
         <Container maxWidth="lg">
@@ -56,7 +56,8 @@ export default function Header() {
                     sx={{
                       fontWeight: 'bold',
                       padding: 0,
-                      margin: 0
+                      margin: 0,
+                      color: theme.palette.secondary.main
                     }}>
                     Second-Hand
                   </Typography>
@@ -78,16 +79,21 @@ export default function Header() {
             <IconButton sx={{
                 marginLeft: 3,
               }}>
-              <FavoriteIcon />
+              <FavoriteIcon sx={{
+                color: theme.palette.secondary.main
+              }} />
             </IconButton>
             <IconButton
               onClick={(e) => setAnchorUseMenu(e.currentTarget)} sx={{borderRadius: 2}}>
               {
                 true === false
                   ? <Avatar src="" />
-                  : <AccountCircle />
+                  : <AccountCircle sx={{color: theme.palette.secondary.main}} />
               }
-              <Typography variant="subtitle2" sx={{ marginLeft: 1 }} >
+              <Typography variant="subtitle2" sx={{
+                marginLeft: 1,
+                color: theme.palette.secondary.main
+              }} >
                 Elissandro Junior
               </Typography>
             </IconButton>
