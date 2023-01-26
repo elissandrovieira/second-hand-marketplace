@@ -16,6 +16,9 @@ import {
   Divider
 } from '@mui/material'
 
+import theme from '../theme'
+import { FavoriteIcon } from '../icons'
+
 export default function Header() {
   const [anchorUseMenu, setAnchorUseMenu] = useState(false)
   const openUseMenu = Boolean(anchorUseMenu)
@@ -23,7 +26,7 @@ export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" elevation="0" sx={{
-        background: 'white',
+        background: theme.palette.background.white,
         borderBottom: '1px solid #F3F3F3'
       }}>
         <Container maxWidth="lg">
@@ -34,35 +37,35 @@ export default function Header() {
                 alignItems: 'center',
                 flexGrow: 1,
                 cursor: 'pointer'
-                }}>
-              <Image
-              src="/icon.svg"
-              alt="icon"
-              width={46}
-              height={30}
-              style={{
-                marginRight: 10
-              }}
-              />
+              }}>
+                <Image
+                  src="/icon.svg"
+                  alt="icon"
+                  width={46}
+                  height={30}
+                  style={{
+                    marginRight: 10
+                  }}
+                />
                 <Box sx={{
                   display: 'flex',
                   flexDirection: 'column',
                   position: 'relative'
                 }}>
-                  <Typography component="body2" variant="h5" 
-                  sx={{
-                  fontWeight: 'bold',
-                  padding: 0,
-                  margin: 0
-                  }}>
-                      Second-Hand
+                  <Typography component="body2" variant="h5"
+                    sx={{
+                      fontWeight: 'bold',
+                      padding: 0,
+                      margin: 0
+                    }}>
+                    Second-Hand
                   </Typography>
                   <Typography component="body2" variant="body2" sx={{
                     padding: 0,
                     marginTop: '-8px',
                     letterSpacing: 5.3
                   }}>
-                      MARKETPLACE
+                    MARKETPLACE
                   </Typography>
                 </Box>
               </Box>
@@ -72,16 +75,17 @@ export default function Header() {
                 Post & Sell
               </Button>
             </Link>
+            <IconButton sx={{
+                marginLeft: 3,
+              }}>
+              <FavoriteIcon />
+            </IconButton>
             <IconButton
-            onClick={(e) => setAnchorUseMenu(e.currentTarget)} 
-            sx={{
-              marginLeft: 3,
-              borderRadius: 2
-            }}>
+              onClick={(e) => setAnchorUseMenu(e.currentTarget)} sx={{borderRadius: 2}}>
               {
                 true === false
-                ? <Avatar src="" />
-                : <AccountCircle />
+                  ? <Avatar src="" />
+                  : <AccountCircle />
               }
               <Typography variant="subtitle2" sx={{ marginLeft: 1 }} >
                 Elissandro Junior
