@@ -21,9 +21,6 @@ import TemplateDefault from '../../src/templates/Default'
 
 const useStyles = makeStyles() ((theme) => {
     return{
-        container: {
-            padding: theme.spacing(8, 0, 6),
-        },
         boxContainer: {
             paddingBottom: theme.spacing(3)
         },
@@ -112,7 +109,7 @@ const Publish = () => {
 
     return(
         <TemplateDefault>
-            <Container maxWidth="sm" className={classes.container}>
+            <Container maxWidth="sm">
                 <Typography component="h1" variant="h3" align="center" color="textPrimary">
                     Post ad
                 </Typography>
