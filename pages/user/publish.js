@@ -41,6 +41,7 @@ const useStyles = makeStyles()((theme) => {
       backgroundColor: theme.palette.box.default,
       display: 'flex',
       flexWrap: 'wrap',
+      padding: 15
     },
     dropzone: {
       display: 'flex',
@@ -48,17 +49,17 @@ const useStyles = makeStyles()((theme) => {
       alignItems: 'center',
       textAlign: 'center',
       padding: 10,
-      margin: '0 20px 20px 20px',
-      width: 200,
-      height: 150,
+      margin: '0 15px 15px 0',
+      width: 180,
+      height: 135,
       backgroundColor: theme.palette.box.softDark,
       border: '2px dashed black',
       cursor: 'pointer',
     },
     thumb: {
       position: 'relative',
-      width: 200,
-      height: 150,
+      width: 180,
+      height: 135,
       margin: '0 15px 15px 0',
       backgroundSize: 'cover',
       backgroundPosition: 'center center',
@@ -93,7 +94,7 @@ const useStyles = makeStyles()((theme) => {
 const validationSchema = yup.object({
   title: yup.string()
         .required('Title is required')
-        .min(10, 'Title should be of minimum 10 characters length')
+        .min(6, 'Title should be of minimum 10 characters length')
         .max(70),
 
         categories: yup.string()
@@ -112,8 +113,12 @@ const validationSchema = yup.object({
         email: yup.string().email('Enter a valid E-mail')
         .required('E-mail is required'),
         
-        phone: yup.number()
+        phone: yup.number().typeError('Must be a number')
         .required('Phone number is required'),
+
+        files: yup.array()
+        .required('Upload image is required')
+        .min(1, 'Upload at least one image')
       });
 
 const Publish = () => {
@@ -129,26 +134,30 @@ const Publish = () => {
       name: '',
       email: '',
       phone: '',
+      files: [],
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
+      console.log(values)
     },
   })
-
-  const [files, setFiles] = useState([])
-
+  
+  const [imageKey, setImageKey] = useState(0)
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: (acceptedFile) => {
       const newFiles = acceptedFile.map(file => {
         return Object.assign(file, {
-          preview: URL.createObjectURL(file)
+          preview: URL.createObjectURL(file),
+          key: imageKey
         })
       })
 
-      setFiles([
-        ...files,
+      setImageKey(imageKey+1)
+
+      formik.setFieldValue('files', [
+        ...formik.values.files,
         ...newFiles
       ])
 
@@ -156,8 +165,8 @@ const Publish = () => {
   })
 
   const handleRemoveFile = fileName => {
-    const newFilestate = files.filter(file => file.name !== fileName)
-    setFiles(newFilestate)
+    const newFilestate = formik.values.files.filter(file => file.name !== fileName)
+    formik.setFieldValue('files', newFilestate)
   }
 
   return (
@@ -178,7 +187,7 @@ const Publish = () => {
             
             <FormControl
             fullWidth
-            error={formik.touched.title && Boolean(formik.errors.title)}
+            error={formik.touched.title && formik.errors.title}
             className={classes.formControl}
             >
               <InputLabel>Title </InputLabel>
@@ -196,7 +205,7 @@ const Publish = () => {
             </FormControl>
 
             <FormControl
-              error={formik.touched.categories && Boolean(formik.errors.categories)}
+              error={formik.touched.categories && formik.errors.categories}
               fullWidth
             >
               <InputLabel>Categories</InputLabel>
@@ -233,24 +242,25 @@ const Publish = () => {
 
         <Container maxWidth="md" className={classes.boxContainer}>
           <Box className={classes.box}>
-            <Typography component="h6" variant="h6" color="textPrimary">
+            <Typography component="h6" variant="h6" color={formik.errors.files && formik.touched.files ? 'error' : 'textPrimary'}>
               Images
             </Typography>
-            <Typography component="div" variant="body2" color="textPrimary" gutterBottom>
+            <Typography component="div" variant="body2" color={formik.errors.files && formik.touched.files ? 'error' : 'textPrimary'} gutterBottom>
               The first image is the main of your ad.
             </Typography>
           </Box>
           <Box className={classes.thumbsConteiner}>
             <Box className={classes.dropzone} {...getRootProps()}>
-              <input {...getInputProps()} />
-              <Typography variant="body2" color="textPrimary">
+              <input name="files" {...getInputProps()} />
+              <Typography variant="body2" color={formik.errors.files && formik.touched.files ? 'error' : 'textPrimary'}>
                 Click here to add a image, or drag and drop a image here.
               </Typography>
             </Box>
-            {files.map((file, index) => {
+
+            {formik.values.files.map((file, index) => {
               return (
                 <Box
-                  key={file.name}
+                  key={file.key}
                   className={classes.thumb}
                   sx={{ backgroundImage: `url(${file.preview})`, }}
                 >
@@ -271,12 +281,21 @@ const Publish = () => {
                 </Box>
               )
             })}
+
+
+          </Box>
+          <Box className={classes.thumbsConteiner}>
+            {
+              formik.errors.files && formik.touched.files
+              ? <Typography variant="body2" color="error" gutterBottom>{formik.errors.files}</Typography>
+              : null
+            }
           </Box>
         </Container>
 
         <Container maxWidth="md" className={classes.boxContainer}>
           <Box className={classes.box}>
-            <FormControl error={formik.touched.description && Boolean(formik.errors.description)} fullWidth>
+            <FormControl error={formik.touched.description && formik.errors.description} fullWidth>
               <InputLabel>Enter your ad deatils</InputLabel>
               <OutlinedInput
                 fullWidth
@@ -297,7 +316,7 @@ const Publish = () => {
         <Container maxWidth="md" className={classes.boxContainer}>
           <Box className={classes.box}>
             <FormControl
-            error={formik.touched.price && Boolean(formik.errors.price)}
+            error={formik.touched.price && formik.errors.price}
             className={classes.formControl}
             >
               <InputLabel>Price</InputLabel>
@@ -338,7 +357,7 @@ const Publish = () => {
             </FormControl>
             <FormControl
             fullWidth
-            error={formik.touched.email && Boolean(formik.errors.email)}
+            error={formik.touched.email && formik.errors.email}
             className={classes.formControl}
             >
               <InputLabel>Enter your e-mail</InputLabel>
@@ -356,7 +375,7 @@ const Publish = () => {
             </FormControl>
             <FormControl
             fullWidth
-            error={formik.touched.phone && Boolean(formik.errors.phone)}
+            error={formik.touched.phone && formik.errors.phone}
             className={classes.formControl}
             >
                 <InputLabel>Enter your phone number</InputLabel>
