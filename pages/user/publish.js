@@ -8,11 +8,13 @@ import {
   Select,
   TextField,
   Typography,
-  FormControl,
   InputLabel,
   OutlinedInput,
-  InputAdornment
+  InputAdornment,
+  FormControl,
+  FormHelperText,
 } from '@mui/material'
+import MenuItem from '@mui/material/MenuItem'
 
 import { Container } from '@mui/system'
 import { makeStyles } from 'tss-react/mui'
@@ -90,16 +92,13 @@ const useStyles = makeStyles()((theme) => {
 })
 
 const validationSchema = yup.object({
-  title: yup
-    .string('Enter your title')
-    .required('Title is required')
-    .min(10, 'Title should be of minimum 10 characters length')
-    .max(70),
-    description:,
-    price:,
-    name:,
-    email:,
-    phone:,
+  title: yup.string()
+        .required('Title is required')
+        .min(10, 'Title should be of minimum 10 characters length')
+        .max(70),
+
+    categories: yup.string()
+                .required('Categories is required')
 });
 
 const Publish = () => {
@@ -178,32 +177,33 @@ const Publish = () => {
             <Typography component="h6" variant="h6" color="textPrimary">
               Categories
             </Typography>
-            <Select
-              native
-              name="title"
-              id="title"
-              value={formik.values.categories}
-              onChange={formik.handleChange}
-              error={formik.touched.categories && Boolean(formik.errors.categories)}
-              helperText={formik.touched.categories && formik.errors.categories}
-              fullWidth
-            >
-              <option value="">Select</option>
-              <option value={1}>Baby & kids</option>
-              <option value={2}>Home & Garden</option>
-              <option value={3}>Clothing & Accessories</option>
-              <option value={4}>Vehicles</option>
-              <option value={5}>Deals</option>
-              <option value={6}>Entertainment</option>
-              <option value={7}>Pets</option>
-              <option value={8}>Furniture</option>
-              <option value={9}>Tools & Home Improvement</option>
-              <option value={10}>Smartphones & Tablets</option>
-              <option value={12}>Sports</option>
-              <option value={11}>Technology</option>
-              <option value={13}>Services</option>
-              <option value={14}>Other</option>
-            </Select>
+            <FormControl error={formik.touched.categories && Boolean(formik.errors.categories)} fullWidth>
+              <Select
+                name="categories"
+                id="categories"
+                value={formik.values.categories}
+                onChange={formik.handleChange}
+                fullWidth
+              >
+                <MenuItem value="Baby & kids">Baby & kids</MenuItem>
+                <MenuItem value="Home & Garden">Home & Garden</MenuItem>
+                <MenuItem value="Clothing & Accessories">Clothing & Accessories</MenuItem>
+                <MenuItem value="Vehicles">Vehicles</MenuItem>
+                <MenuItem value="Deals">Deals</MenuItem>
+                <MenuItem value="Entertainment">Entertainment</MenuItem>
+                <MenuItem value="Pets">Pets</MenuItem>
+                <MenuItem value="Furniture">Furniture</MenuItem>
+                <MenuItem value="Tools & Home Improvement">Tools & Home Improvement</MenuItem>
+                <MenuItem value="Smartphones & Tablets">Smartphones & Tablets</MenuItem>
+                <MenuItem value="Sports">Sports</MenuItem>
+                <MenuItem value="Technology">Technology</MenuItem>
+                <MenuItem value="Services">Services</MenuItem>
+                <MenuItem value="Other">Other</MenuItem>
+              </Select>
+              <FormHelperText>
+                {formik.touched.categories && formik.errors.categories}
+              </FormHelperText>
+            </FormControl>
           </Box>
         </Container>
 
