@@ -13,12 +13,12 @@ import { makeStyles } from 'tss-react/mui'
 import Carousel from 'react-material-ui-carousel'
 
 
-import TemplateDefault from '../src/templates/Default'
+import TemplateDefault from '../../src/templates/Default'
 import {
   FavoriteIconButton,
   LocationIconFilled
-} from '../src/icons'
-import theme from '../src/theme'
+} from '../../src/icons'
+import theme from '../../src/theme'
 
 const useStyles = makeStyles()((theme) => {
   return {
