@@ -6,7 +6,6 @@ import {
   Button,
   IconButton,
   Select,
-  TextField,
   Typography,
   InputLabel,
   OutlinedInput,
@@ -105,7 +104,16 @@ const validationSchema = yup.object({
         .min(50, 'Description should be of minimum 50 characters length'),
         
         price: yup.number()
-        .required('Price is required')
+        .required('Price is required'),
+        
+        name: yup.string()
+        .required('Your name is required'),
+        
+        email: yup.string().email('Enter a valid E-mail')
+        .required('E-mail is required'),
+        
+        phone: yup.number()
+        .required('Phone number is required'),
       });
 
 const Publish = () => {
@@ -275,7 +283,8 @@ const Publish = () => {
                 multiline
                 name="description"
                 id="description"
-                label="Enter your ad details"
+                label="Enter your ad details..."
+                onChange={formik.handleChange}
                 rows={6}
               />
               <FormHelperText>
@@ -296,7 +305,6 @@ const Publish = () => {
                 name="price"
                 id="price"
                 label="Price"
-                value={formik.values.price}
                 onChange={formik.handleChange}
                 endAdornment={<InputAdornment position="start">€</InputAdornment>}
                 labelWigth={40}
@@ -310,21 +318,59 @@ const Publish = () => {
 
         <Container maxWidth="md" className={classes.boxContainer}>
           <Box className={classes.box}>
-            <Typography component="h6" variant="h6" color="textPrimary" gutterBottom>
-              Contact Details
-            </Typography>
             <FormControl
             fullWidth
-            error={formik.touched.title && Boolean(formik.errors.title)}
+            error={formik.touched.name && Boolean(formik.errors.name)}
             className={classes.formControl}
             >
+              <InputLabel>Enter your name</InputLabel>
               <OutlinedInput
-                label="Name"
-                variant="outlined"
-                size="small"
                 fullWidth
-                className={classes.TextField}
+                name="name"
+                id="name"
+                label="Enter your name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
               />
+              <FormHelperText>
+                {formik.touched.name && formik.errors.name}
+              </FormHelperText>
+            </FormControl>
+            <FormControl
+            fullWidth
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            className={classes.formControl}
+            >
+              <InputLabel>Enter your e-mail</InputLabel>
+              <OutlinedInput
+                fullWidth
+                name="email"
+                id="email"
+                label="Enter your e-mail"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+              />
+              <FormHelperText>
+                {formik.touched.email && formik.errors.email}
+              </FormHelperText>
+            </FormControl>
+            <FormControl
+            fullWidth
+            error={formik.touched.phone && Boolean(formik.errors.phone)}
+            className={classes.formControl}
+            >
+                <InputLabel>Enter your phone number</InputLabel>
+                <OutlinedInput
+                  fullWidth
+                  name="phone"
+                  id="phone"
+                  label="Enter your phone number"
+                  value={formik.values.phone}
+                  onChange={formik.handleChange}
+                />
+                <FormHelperText>
+                  {formik.touched.phone && formik.errors.phone}
+                </FormHelperText>
             </FormControl>
 
           </Box>
