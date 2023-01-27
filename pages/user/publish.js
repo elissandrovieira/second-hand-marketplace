@@ -25,7 +25,7 @@ import TemplateDefault from '../../src/templates/Default'
 
 const useStyles = makeStyles()((theme) => {
   return {
-    TextField:{
+    formControl:{
       marginBottom: 20
     },
     title:{
@@ -97,9 +97,16 @@ const validationSchema = yup.object({
         .min(10, 'Title should be of minimum 10 characters length')
         .max(70),
 
-    categories: yup.string()
-                .required('Categories is required')
-});
+        categories: yup.string()
+        .required('Categories is required'),
+        
+        description: yup.string()
+        .required('Description is required')
+        .min(50, 'Description should be of minimum 50 characters length'),
+        
+        price: yup.number()
+        .required('Price is required')
+      });
 
 const Publish = () => {
   const { classes } = useStyles()
@@ -147,6 +154,7 @@ const Publish = () => {
 
   return (
     <TemplateDefault>
+      
       <Container maxWidth="sm" className={classes.title}>
         <Typography component="h1" variant="h3" align="center" color="textPrimary">
           Post ad
@@ -155,32 +163,39 @@ const Publish = () => {
           The more detailed your ads, the better!
         </Typography>
       </Container>
+
       <form onSubmit={formik.handleSubmit}> 
         <Container maxWidth="md" className={classes.boxContainer}>
           <Box className={classes.box}>
-            <Typography component="h6" variant="h6" color="textPrimary">
-              Title
-            </Typography>
-            <TextField
-              fullWidth
-              name="title"
-              id="title"
-              value={formik.values.title}
-              onChange={formik.handleChange}
-              error={formik.touched.title && Boolean(formik.errors.title)}
-              helperText={formik.touched.title && formik.errors.title}
-              label="ex.: Playstation 4 worn rarely"
-              size="small"
-              className={classes.TextField}
-            />
+            
+            <FormControl
+            fullWidth
+            error={formik.touched.title && Boolean(formik.errors.title)}
+            className={classes.formControl}
+            >
+              <InputLabel>Title </InputLabel>
+              <OutlinedInput
+                fullWidth
+                name="title"
+                id="title"
+                label="Title "
+                value={formik.values.title}
+                onChange={formik.handleChange}
+              />
+              <FormHelperText>
+                {formik.touched.title && formik.errors.title}
+              </FormHelperText>
+            </FormControl>
 
-            <Typography component="h6" variant="h6" color="textPrimary">
-              Categories
-            </Typography>
-            <FormControl error={formik.touched.categories && Boolean(formik.errors.categories)} fullWidth>
+            <FormControl
+              error={formik.touched.categories && Boolean(formik.errors.categories)}
+              fullWidth
+            >
+              <InputLabel>Categories</InputLabel>
               <Select
                 name="categories"
                 id="categories"
+                label="Categories"
                 value={formik.values.categories}
                 onChange={formik.handleChange}
                 fullWidth
@@ -204,6 +219,7 @@ const Publish = () => {
                 {formik.touched.categories && formik.errors.categories}
               </FormHelperText>
             </FormControl>
+
           </Box>
         </Container>
 
@@ -252,32 +268,42 @@ const Publish = () => {
 
         <Container maxWidth="md" className={classes.boxContainer}>
           <Box className={classes.box}>
-            <Typography component="h6" variant="h6" color="textPrimary">
-              Description
-            </Typography>
-            <Typography component="div" variant="body2" color="textPrimary" gutterBottom>
-              Type your ad details.
-            </Typography>
-            <TextField
-              multiline
-              rows={6}
-              variant="outlined"
-              fullWidth
-            />
+            <FormControl error={formik.touched.description && Boolean(formik.errors.description)} fullWidth>
+              <InputLabel>Enter your ad deatils</InputLabel>
+              <OutlinedInput
+                fullWidth
+                multiline
+                name="description"
+                id="description"
+                label="Enter your ad details"
+                rows={6}
+              />
+              <FormHelperText>
+                {formik.touched.description && formik.errors.description}
+              </FormHelperText>
+            </FormControl>
           </Box>
         </Container>
 
         <Container maxWidth="md" className={classes.boxContainer}>
           <Box className={classes.box}>
-            <Typography component="h6" variant="h6" color="textPrimary">
-              Price
-            </Typography>
-            <FormControl>
+            <FormControl
+            error={formik.touched.price && Boolean(formik.errors.price)}
+            className={classes.formControl}
+            >
+              <InputLabel>Price</InputLabel>
               <OutlinedInput
-                onChange={() => { }}
-                startAdornment={<InputAdornment position="start">€</InputAdornment>}
+                name="price"
+                id="price"
+                label="Price"
+                value={formik.values.price}
+                onChange={formik.handleChange}
+                endAdornment={<InputAdornment position="start">€</InputAdornment>}
                 labelWigth={40}
               />
+              <FormHelperText>
+                {formik.touched.price && formik.errors.price}
+              </FormHelperText>
             </FormControl>
           </Box>
         </Container>
@@ -287,28 +313,20 @@ const Publish = () => {
             <Typography component="h6" variant="h6" color="textPrimary" gutterBottom>
               Contact Details
             </Typography>
-            <TextField
-              label="Name"
-              variant="outlined"
-              size="small"
-              fullWidth
-              className={classes.TextField}
-            />
+            <FormControl
+            fullWidth
+            error={formik.touched.title && Boolean(formik.errors.title)}
+            className={classes.formControl}
+            >
+              <OutlinedInput
+                label="Name"
+                variant="outlined"
+                size="small"
+                fullWidth
+                className={classes.TextField}
+              />
+            </FormControl>
 
-            <TextField
-              label="E-mail"
-              variant="outlined"
-              size="small"
-              fullWidth
-              className={classes.TextField}
-            />
-
-            <TextField
-              label="Phone Number"
-              variant="outlined"
-              size="small"
-              fullWidth
-            />
           </Box>
         </Container>
 
