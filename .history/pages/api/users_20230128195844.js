@@ -29,7 +29,7 @@ const users = async (req, res) => {
       const user = new UsersModel({
         name,
         email,
-        password: passwordCrypto,
+        passwordCr,
       })
 
       user.save()

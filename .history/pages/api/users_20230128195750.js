@@ -24,12 +24,10 @@ const users = async (req, res) => {
 
       await dbConnect()
 
-      const passwordCrypto = await crypto(password)
-
       const user = new UsersModel({
         name,
         email,
-        password: passwordCrypto,
+        password,
       })
 
       user.save()
