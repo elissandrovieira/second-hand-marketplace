@@ -3,8 +3,8 @@ import { get, post } from '../../src/controllers/users'
 
 const route = nextConnect()
 
-route.get(get)
+route.get()
 
-route.post(post)
+route.post()
 
 export default route
