@@ -45,7 +45,7 @@ const SignIn = ({ APP_URL }) => {
 
   const handleGoogleLogin = () => {
     signIn('google',{
-      callbackUrl: `${APP_URL}/user/dashboard`
+      callbackUrl: '/user/dashboard'
     })
   }
 
@@ -57,7 +57,7 @@ const SignIn = ({ APP_URL }) => {
       signIn('credentials', {
         email: values.email,
         password: values.password,
-        callbackUrl: `${APP_URL}/user/dashboard`
+        callbackUrl: 'http://localhost:3000/user/dashboard'
       })
     }
   })
@@ -180,10 +180,9 @@ const SignIn = ({ APP_URL }) => {
   )
 }
 
-export async function getServerSideProps() {
-  const APP_URL = process.env.APP_URL
+SignIn.getServerSideProps = async function() {
   return {
-    props: { APP_URL }
+    APP_URL: process.env.APP_URL
   }
 }
 

@@ -132,17 +132,17 @@ export default function Header() {
               }}
             >
               <Link href="/user/dashboard" passHref legacyBehavior>
-                <MenuItem sx={{ width: 160 }}>My Ads</MenuItem>
+                <MenuItem sx={{ width: 160, textAlign: 'center' }}>My Ads</MenuItem>
               </Link>
               <Link href="/user/publish" passHref legacyBehavior>
-                <MenuItem sx={{ width: 160 }}>Post new ads</MenuItem>
+                <MenuItem sx={{ width: 160, textAlign: 'center' }}>Post new ads</MenuItem>
               </Link>
               <Divider sx={{
                 margin: '8px 0'
               }} />
               <MenuItem
               onClick={() => signOut({ callbackUrl: '/' })}
-              sx={{ width: 160 }}
+              sx={{ width: 160, textAlign: 'center' }}
               >Logout</MenuItem>
             </Menu>
           </Toolbar>

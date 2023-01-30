@@ -180,10 +180,9 @@ const SignIn = ({ APP_URL }) => {
   )
 }
 
-export async function getServerSideProps() {
-  const APP_URL = process.env.APP_URL
+export const getServerSideProps = async () => {
   return {
-    props: { APP_URL }
+    APP_URL: process.env.APP_URL
   }
 }
 
