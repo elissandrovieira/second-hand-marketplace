@@ -15,11 +15,14 @@ import {
 
 import { makeStyles } from 'tss-react/mui'
 import theme from '../theme'
+import { transform } from 'typescript'
+import { Scale } from '@mui/icons-material'
 
 const useStyles = makeStyles()((theme) => {
   return {
     card: {
-      background: theme.palette.card.default
+      background: theme.palette.card.default,
+      cursor: 'pointer',
     },
     cardMedia: {
       margin: 10,
@@ -29,6 +32,11 @@ const useStyles = makeStyles()((theme) => {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center'
+    },
+    title:{
+      ':hover': {
+        color: theme.palette.primary.main
+      }
     },
     subtitle: {
       display: 'flex',
@@ -51,7 +59,7 @@ const Card = ({ image, title, subtitle, price, actions, customActions }) => {
         title={title}
       />
       <CardContent>
-        <Typography variant="h5" component="h3">
+        <Typography variant="h5" component="h3" className={classes.title}>
           {title}
         </Typography>
         <Box className={classes.subtitle}>

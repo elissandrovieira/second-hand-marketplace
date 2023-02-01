@@ -6,8 +6,11 @@ import {
 } from '@mui/material'
 
 import { makeStyles } from 'tss-react/mui'
+import { getSession } from 'next-auth/client'
 
 import TemplateDefault from '../../src/templates/Default'
+import ProductsModel from '../../src/models/products'
+import dbConnect from '../../src/utils/dbConnect'
 import Card from '../../src/components/Card'
 import Link from 'next/link'
 
@@ -21,8 +24,10 @@ const useStyles = makeStyles()((theme) => {
 
 })
 
- const Home = () => {
+ const Home = ({ products }) => {
   const { classes } = useStyles()
+
+  console.log(products)
 
   return (
     <TemplateDefault>
@@ -36,33 +41,19 @@ const useStyles = makeStyles()((theme) => {
       </Container>
       <Container maxWidth="md" >
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card
-              image={'https://source.unsplash.com/random'}
-              title='Produto x'
-              subtitle="Matosinhos - Jan 22"
-              price='500'
-              actions='editRemove'
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card
-              image={'https://source.unsplash.com/random'}
-              title='Produto x'
-              subtitle="Matosinhos - Jan 22"
-              price='500'
-              actions='editRemove'
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card
-              image={'https://source.unsplash.com/random'}
-              title='Produto x'
-              subtitle="Matosinhos - Jan 22"
-              price='500'
-              actions='editRemove'
-            />
-          </Grid>
+          {
+            products.map(product => (
+              <Grid key={product.id} item xs={12} sm={6} md={4}>
+                <Card
+                  image={`/uploads/${product.files[0].name}`}
+                  title={product.title}
+                  subtitle={`${product.city} - ${product.district}`}
+                  price={product.price}
+                  actions='editRemove'
+                />
+              </Grid>
+            ))
+          }
         </Grid>
       </Container>
     </TemplateDefault>
@@ -70,5 +61,18 @@ const useStyles = makeStyles()((theme) => {
 }
 
 Home.requireAuth = true
+
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req })
+  await dbConnect()
+
+  const products = await ProductsModel.find({'user.id': session.userId})
+
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products))
+    }
+  }
+}
 
 export default Home
