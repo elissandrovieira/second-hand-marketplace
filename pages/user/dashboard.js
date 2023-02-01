@@ -13,6 +13,7 @@ import ProductsModel from '../../src/models/products'
 import dbConnect from '../../src/utils/dbConnect'
 import Card from '../../src/components/Card'
 import Link from 'next/link'
+import { formatCurrency } from '../../src/utils/currency'
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -48,7 +49,7 @@ const useStyles = makeStyles()((theme) => {
                   image={`/uploads/${product.files[0].name}`}
                   title={product.title}
                   subtitle={`${product.city} - ${product.district}`}
-                  price={product.price}
+                  price={formatCurrency(product.price)}
                   actions='editRemove'
                 />
               </Grid>

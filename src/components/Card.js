@@ -75,7 +75,7 @@ const Card = ({ image, title, subtitle, price, actions, customActions }) => {
       </CardContent>
       <Box className={classes.boxBottom}>
         <Typography variant="h6" component="h5" className={classes.price}>
-          {price} €
+          {price}
         </Typography>
         <CardActions>
           {
