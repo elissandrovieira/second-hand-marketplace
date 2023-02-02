@@ -34,6 +34,22 @@ const Publish = ({ userId, image }) => {
     ...initialValues,
   }
 
+  const today = new Date()
+  
+  const year = today.getFullYear()
+  const month = today.getMonth()
+  const day = today.getDate()
+  
+  const hour = today.getHours()
+  const minute = today.getMinutes()
+  
+  formValues.year = year
+  formValues.month = month
+  formValues.day = day
+
+  formValues.hour = hour
+  formValues.minute = minute
+  
   formValues.userId = userId
   formValues.image = image
 
@@ -321,12 +337,12 @@ const Publish = ({ userId, image }) => {
           <Box textAlign="right">
             {
               formik.isSubmitting
-                ? (
-                  <CircularProgress className={classes.loading} />
-                ) : (
-                  <Button type="submit" variant="contained" disableElevation>Publish</Button>
-                )
-                }
+              ? (
+                <CircularProgress className={classes.loading} />
+              ) : (
+                <Button type="submit" variant="contained" disableElevation>Publish</Button>
+              )
+            }
           </Box>
         </Container>
       </form>

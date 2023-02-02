@@ -37,6 +37,15 @@ const useStyles = makeStyles()((theme) => {
   const [productId, setProductId] = useState()
   const [removedProducts, setRemovedProducts] = useState([])
 
+  const today = new Date()
+  
+  const year = today.getFullYear()
+  const month = today.getMonth()
+  const day = today.getDate()
+
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December']
+
   const handleOpenModal = (productId) => {
     setProductId(productId)
     setOpen(true)
@@ -102,7 +111,11 @@ const useStyles = makeStyles()((theme) => {
                     <Card
                       image={`/uploads/${product.files[0].name}`}
                       title={product.title}
-                      subtitle={`${product.city} - ${product.district}`}
+                      subtitle={
+                        product.year === year && product.month === month && product.day === day
+                        ? `${product.city} - Today at ${product.hour}:${product.minute}`
+                        : `${product.city} - ${monthNames[month]} ${day}th ${year}`
+                      }
                       price={formatCurrency(product.price)}
                       actions='editRemove'
                       handleOpenModal={() => handleOpenModal(product._id)}

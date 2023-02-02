@@ -49,6 +49,15 @@ const useStyles = makeStyles()((theme) => {
 const Products = ({ product }) => {
   const { classes } = useStyles()
 
+  const today = new Date()
+  
+  const year = today.getFullYear()
+  const month = today.getMonth()
+  const day = today.getDate()
+
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December']
+
   return (
     <TemplateDefault>
       <Container maxWidth="lg">
@@ -105,8 +114,12 @@ const Products = ({ product }) => {
               </Carousel>
             </Box>
             <Box className={classes.box}>
-              <Typography component="span" variant="caption">
-                Posted January 22th, 2023
+              <Typography component="span" variant="body1" gutterBottom>
+              {
+                product.year === year && product.month === month && product.day === day
+                ? `Today at ${product.hour}:${product.minute}`
+                : `${monthNames[month]} ${day}th ${year} at ${product.hour}:${product.minute}`
+              }
               </Typography>
               <Typography component="h4" variant="h4" className={classes.productName}>
                 {product.title}

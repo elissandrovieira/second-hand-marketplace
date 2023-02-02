@@ -22,7 +22,6 @@ const useStyles = makeStyles()((theme) => {
   return {
     card: {
       background: theme.palette.card.default,
-      cursor: 'pointer',
     },
     cardMedia: {
       margin: 10,

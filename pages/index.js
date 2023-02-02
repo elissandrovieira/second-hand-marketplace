@@ -1,4 +1,6 @@
+import Link from 'next/link'
 import { makeStyles } from 'tss-react/mui'
+import slugify from 'slugify'
 
 import {
   Container,
@@ -9,18 +11,32 @@ import {
 import TemplateDefault from '../src/templates/Default'
 import Card from '../src/components/Card'
 import SearchBox from '../src/components/SearchBox'
-import CardList from '../src/components/CardList'
+import dbConnect from '../src/utils/dbConnect'
+import ProductsModel from '../src/models/products'
+import { formatCurrency } from '../src/utils/currency'
 
 const useStyles = makeStyles()((theme) => {
   return {
     highlight: {
       padding: '20px 0 10px 0'
+    },
+    productLink: {
+      textDecoration: 'none !important'
     }
   }
 })
 
-const Home = () => {
+const Home = ({ products }) => {
   const { classes } = useStyles()
+
+  const today = new Date()
+  
+  const year = today.getFullYear()
+  const month = today.getMonth()
+  const day = today.getDate()
+
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December']
 
   return (
     <TemplateDefault>
@@ -35,46 +51,54 @@ const Home = () => {
           Highlight Items
         </Typography>
           <Grid container spacing={4}>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card
-                image={'https://source.unsplash.com/random'}
-                title='Produto x'
-                subtitle="Matosinhos - Jan 22"
-                price='500'
-                actions='favButton'
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card
-                image={'https://source.unsplash.com/random'}
-                title='Produto x'
-                subtitle="Matosinhos - Jan 22"
-                price='500'
-                actions='favButton'
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card
-                image={'https://source.unsplash.com/random'}
-                title='Produto x'
-                subtitle="Matosinhos - Jan 22"
-                price='500'
-                actions='favButton'
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card
-                image={'https://source.unsplash.com/random'}
-                title='Produto x'
-                subtitle="Matosinhos - Jan 22"
-                price='500'
-                actions='favButton'
-              />
-            </Grid>
+            {
+              products.map(product => {
+                const category = slugify(product.category).toLocaleLowerCase()
+                const title = slugify(product.title).toLocaleLowerCase()
+
+                return (
+                <Grid key={product._id} item xs={12} sm={6} md={3}>
+                  <Link 
+                  href={`/${category}/${title}/${product._id}`}
+                  legacyBehavior
+                  >
+                    <a className={classes.productLink}>
+                      <Card
+                      image={`/uploads/${product.files[0].name}`}
+                      title={product.title}
+                      subtitle={
+                        product.year === year && product.month === month && product.day === day
+                        ? `${product.city} - Today at ${product.hour}:${product.minute}`
+                        : `${product.city} - ${monthNames[month]} ${day}th ${year}`
+                      }
+                      price={formatCurrency(product.price)}
+                      actions='favButton'
+                      />
+                    </a>
+                  </Link>
+                </Grid>
+
+                )
+              })
+            }
           </Grid>
       </Container>
     </TemplateDefault>
   )
+}
+
+export async function getServerSideProps() {
+  await dbConnect()
+
+  const products = await ProductsModel.aggregate([{
+    $sample: { size:6 }
+  }])
+
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products))
+    }
+  }
 }
 
 export default Home

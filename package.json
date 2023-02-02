@@ -32,6 +32,7 @@
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-material-ui-carousel": "^3.4.2",
+    "slugify": "^1.6.5",
     "styled-components": "^5.3.6",
     "tss-react": "^4.5.2",
     "yarn": "^1.22.19",

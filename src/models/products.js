@@ -30,6 +30,26 @@ const schema = new mongoose.Schema({
     type: String,
     required: [true, 'The "city" field is required.']
   },
+  year: {
+    type: Number,
+    required: [true, 'The "year" field is required.']
+  },
+  month: {
+    type: Number,
+    required: [true, 'The "month" field is required.']
+  },
+  day: {
+    type: Number,
+    required: [true, 'The "day" field is required.']
+  },
+  hour: {
+    type: Number,
+    required: [true, 'The "hour" field is required.']
+  },
+  minute: {
+    type: Number,
+    required: [true, 'The "minute" field is required.']
+  },
   user: {
     name: String,
     email: String,
