@@ -8,7 +8,7 @@ export const initialValues = {
   
   }
   
-export const validationSchema = yup.object({
+ const validationSchema = yup.object({
 email: yup.string()
 .required('This field is required')
 .email('Enter a valid E-mail'),
@@ -18,3 +18,5 @@ password: yup.string()
 .min(8, 'Password must be 8 characters.'),
 
 })
+
+export default validationSchema

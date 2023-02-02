@@ -13,7 +13,7 @@ export const initialValues = {
     files: [],
   }
 
-export const validationSchema = yup.object({
+const validationSchema = yup.object({
     title: yup.string()
     .required('Title is required')
     .min(6, 'Title should be of minimum 10 characters length')
@@ -48,3 +48,5 @@ export const validationSchema = yup.object({
     .required('Upload image is required')
     .min(1, 'Upload at least one image'),
 })
+
+export default validationSchema

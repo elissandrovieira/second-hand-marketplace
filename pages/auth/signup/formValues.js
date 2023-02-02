@@ -8,7 +8,7 @@ export const initialValues = {
   
   }
   
-export const validationSchema = yup.object({
+const validationSchema = yup.object({
 name: yup.string()
 .required('This field is required'),
 
@@ -25,3 +25,5 @@ confirmPass: yup.string()
 .oneOf([yup.ref('password'), null], 'Passwords must match')
 
 })
+
+export default validationSchema

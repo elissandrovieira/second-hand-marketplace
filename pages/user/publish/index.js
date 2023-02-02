@@ -21,7 +21,8 @@ import {
 import TemplateDefault from '../../../src/templates/Default'
 import theme from '../../../src/theme'
 import useStyles from './styles'
-import { validationSchema, initialValues } from './formValues'
+import { initialValues } from './formValues'
+import validationSchema from './formValues'
 import FileUpload from '../../../src/components/FileUpload'
 import useToasty from '../../../src/contexts/Toasty'
 
