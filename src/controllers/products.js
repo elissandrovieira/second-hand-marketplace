@@ -4,7 +4,7 @@ import formidable from 'formidable-serverless'
 import ProductsModel from '../models/products'
 import dbConnect from '../utils/dbConnect'
 
-export const post = async (req, res) => {
+const post = async (req, res) => {
   await dbConnect()
 
   const form = new formidable.IncomingForm({
@@ -20,21 +20,21 @@ export const post = async (req, res) => {
 
     const { files } = data
 
-    const filesToRename = files instanceof Array
-      ? files
-      : [files]
+    const filesToRename = files instanceof Array ? files : [files]
 
     const filesToSave = []
 
-    filesToRename.forEach(file => {
+    filesToRename.forEach((file) => {
       const timestamp = Date.now()
-      const random = Math.floor(Math.random() * 99999999) + 1
+      const random = Math.floor(Math.random() * 100)
       const extension = path.extname(file.name)
-
       const filename = `${timestamp}_${random}${extension}`
 
-      const oldpath = path.join(__dirname, `../../../../${file.path}`)
-      const newpath = path.join(__dirname, `../../../../${form.uploadDir}/${filename}`)
+      const oldpath = path.join(__dirname, `../../../../../${file.path}`)
+      const newpath = path.join(
+        __dirname,
+        `../../../../../${form.uploadDir}/${filename}`
+      )
 
       filesToSave.push({
         name: filename,
@@ -43,7 +43,6 @@ export const post = async (req, res) => {
 
       fs.rename(oldpath, newpath, (error) => {
         if (error) {
-          console.log(error)
           return res.status(500).json({ success: false })
         }
       })
@@ -62,7 +61,7 @@ export const post = async (req, res) => {
       userId,
       image,
     } = fields
- 
+
     const product = new ProductsModel({
       title,
       category,
@@ -70,22 +69,40 @@ export const post = async (req, res) => {
       price,
       district,
       city,
-      user:{
+      user: {
         name,
         email,
         phone,
         id: userId,
         image,
       },
+      email,
+      phone,
       files: filesToSave,
     })
 
     const register = await product.save()
-    
-    if(register) {
+
+    if (register) {
       res.status(201).json({ success: true })
     } else {
       res.status(500).json({ success: false })
     }
   })
 }
+
+const remove = async (req, res) => {
+  await dbConnect()
+
+  const id = req.body.id
+
+  const deleted = await ProductsModel.findOneAndRemove({ _id: id })
+
+  if (deleted) {
+    return res.status(200).json({ success: true })
+  } else {
+    return res.status(500).json({ success: false })
+  }
+}
+
+export { post, remove }

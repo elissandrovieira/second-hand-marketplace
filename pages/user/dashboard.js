@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Button,
   Container,
@@ -7,13 +8,16 @@ import {
 
 import { makeStyles } from 'tss-react/mui'
 import { getSession } from 'next-auth/client'
+import axios from 'axios'
 
 import TemplateDefault from '../../src/templates/Default'
 import ProductsModel from '../../src/models/products'
 import dbConnect from '../../src/utils/dbConnect'
 import Card from '../../src/components/Card'
+import AlertModal from '../../src/components/AlertModal'
 import Link from 'next/link'
 import { formatCurrency } from '../../src/utils/currency'
+import useToasty from '../../src/contexts/Toasty'
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -27,33 +31,86 @@ const useStyles = makeStyles()((theme) => {
 
  const Home = ({ products }) => {
   const { classes } = useStyles()
+  const { setToasty } = useToasty()
 
-  console.log(products)
+  const [open, setOpen] = useState(false)
+  const [productId, setProductId] = useState()
+  const [removedProducts, setRemovedProducts] = useState([])
 
+  const handleOpenModal = (productId) => {
+    setProductId(productId)
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleRemove = () => {
+    axios.delete('/api/products/delete', {
+      data: {
+        id: productId
+      }
+    })
+    .then(handleSuccess)
+    .catch(handleError)
+  }
+
+  const handleSuccess = () => {
+    setOpen(false)
+    setRemovedProducts([...removedProducts, productId])
+
+    setToasty({
+      open: true,
+      text: 'Successfull ad deleted',
+      severity: 'success'
+    })
+  }
+
+  const handleError = () => {
+    setToasty({
+      open: true,
+      text: 'An error has occurred, please try again.',
+      severity: 'error'
+    })
+  }
   return (
     <TemplateDefault>
       <Container maxWidth="sm">
+        <AlertModal
+          title="Do you want to delete this ad?"
+          details="If you delete, you can't recover this ad."
+          handleClose={handleClose}
+          handleRemove={handleRemove}
+          open={open}
+        />
         <Typography component="h1" variant="h3" align='center'>
           My Ads
         </Typography>
-        <Link href={'/user/publish'} legacyBehavior >
+        <Link href={'/user/publish'} legacyBehavior>
           <Button variant='contained' disableElevation className={classes.buttonAdd}>Post new ad</Button>
         </Link>
       </Container>
       <Container maxWidth="md" >
+        
         <Grid container spacing={4}>
           {
-            products.map(product => (
-              <Grid key={product.id} item xs={12} sm={6} md={4}>
-                <Card
-                  image={`/uploads/${product.files[0].name}`}
-                  title={product.title}
-                  subtitle={`${product.city} - ${product.district}`}
-                  price={formatCurrency(product.price)}
-                  actions='editRemove'
-                />
-              </Grid>
-            ))
+            products.map(product => {
+              if (removedProducts.includes(product._id)) return null
+                return (
+                  <Grid key={product.id} item xs={12} sm={6} md={4}>
+                    <Card
+                      image={`/uploads/${product.files[0].name}`}
+                      title={product.title}
+                      subtitle={`${product.city} - ${product.district}`}
+                      price={formatCurrency(product.price)}
+                      actions='editRemove'
+                      handleOpenModal={() => handleOpenModal(product._id)}
+                    />
+                  </Grid>
+                )
+              }
+            )
           }
         </Grid>
       </Container>

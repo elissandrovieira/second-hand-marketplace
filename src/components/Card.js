@@ -48,7 +48,7 @@ const useStyles = makeStyles()((theme) => {
   }
 })
 
-const Card = ({ image, title, subtitle, price, actions, customActions }) => {
+const Card = ({ image, title, subtitle, price, actions, customActions, handleOpenModal }) => {
   const { classes } = useStyles()
 
   return (
@@ -94,7 +94,11 @@ const Card = ({ image, title, subtitle, price, actions, customActions }) => {
                   }}>
                     Edit
                   </Button>
-                  <Button size="small" variant='outlined' sx={{
+                  <Button
+                  size="small"
+                  variant='outlined'
+                  onClick={handleOpenModal}
+                  sx={{
                     color: theme.palette.tertiary.main,
                     borderColor: theme.palette.tertiary.main,
                     ':hover': {
