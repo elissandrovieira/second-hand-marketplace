@@ -26,7 +26,7 @@ import TemplateFullScreen from '../../../src/templates/FullScreen'
 import { initialValues, validationSchema } from './formValues'
 import theme from '../../../src/theme'
 import useToasty from '../../../src/contexts/Toasty'
-import useStyles from './styles'
+import useStyles from '../../../styles/signupStyles'
 
 const SignUp = () => {
   const { classes } = useStyles()
