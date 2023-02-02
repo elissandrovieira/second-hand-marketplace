@@ -29,7 +29,7 @@ import theme from '../../../src/theme'
 import useToasty from '../../../src/contexts/Toasty'
 import useStyles from '../../../styles/signinStyles'
 
-const SignIn = ({ APP_URL }) => {
+const SignIn = ({ VERCEL_URL }) => {
   const { classes } = useStyles()
   const router = useRouter()
   const { setToasty } = useToasty()
@@ -46,7 +46,7 @@ const SignIn = ({ APP_URL }) => {
 
   const handleGoogleLogin = () => {
     signIn('google',{
-      callbackUrl: `${APP_URL}/user/dashboard`
+      callbackUrl: `${VERCEL_URL}/user/dashboard`
     })
   }
 
@@ -58,7 +58,7 @@ const SignIn = ({ APP_URL }) => {
       signIn('credentials', {
         email: values.email,
         password: values.password,
-        callbackUrl: `${APP_URL}/user/dashboard`
+        callbackUrl: `${VERCEL_URL}/user/dashboard`
       })
     }
   })
@@ -228,9 +228,9 @@ const SignIn = ({ APP_URL }) => {
 }
 
 export async function getServerSideProps() {
-  const APP_URL = process.env.APP_URL
+  const VERCEL_URL = process.env.VERCEL_URL
   return {
-    props: { APP_URL }
+    props: { VERCEL_URL }
   }
 }
 
