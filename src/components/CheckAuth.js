@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
-import LoadingPage from './LoadingPage'
 import { Box, CircularProgress } from '@mui/material'
 
 const CheckAuth = ({ Component, pageProps }) => {
