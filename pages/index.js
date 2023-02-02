@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { makeStyles } from 'tss-react/mui'
 import slugify from 'slugify'
 
@@ -28,6 +30,15 @@ const useStyles = makeStyles()((theme) => {
 
 const Home = ({ products }) => {
   const { classes } = useStyles()
+  const router = useRouter()
+
+  const [search, setSearch] = useState()
+
+  const handleSubmitSearch = () => {
+    router.push({
+      pathname: `/search/${search}`
+    })
+  }
 
   const today = new Date()
   
@@ -44,7 +55,10 @@ const Home = ({ products }) => {
         <Typography component="h1" variant="h3" align="center" color="textPrimary">
           What are you looking for?
         </Typography>
-        <SearchBox />
+        <SearchBox
+        onChange={(e) => setSearch(e.target.value)}
+        onClick={handleSubmitSearch}
+        />
       </Container>
       <Container maxWidth="lg" className={classes.cardGrid}>
         <Typography component="h2" variant="h4" align="center" color="textPrimary" className={classes.highlight}>

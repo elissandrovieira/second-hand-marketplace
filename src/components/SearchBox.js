@@ -20,15 +20,23 @@ const useStyles = makeStyles()((theme) => {
 })
 
 
-const SearchBox = ({ placeholder }) => {
+const SearchBox = ({ placeholder, onChange, onClick }) => {
   const { classes } = useStyles()
 
   return (
     <Paper className={classes.searchBox} elevation="0">
-      <IconButton>
+      <IconButton
+      onClick={onClick}
+      >
         <SearchIcon className={classes.searchIcon} />
       </IconButton>
       <InputBase
+        onChange={onChange}
+        onKeyDown={(e) => {
+          e.key === 'Enter'
+          ? onClick()
+          : null
+        }}
         placeholder={placeholder}
         fullWidth
       />
