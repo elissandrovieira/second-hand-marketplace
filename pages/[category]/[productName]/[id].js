@@ -13,12 +13,14 @@ import { makeStyles } from 'tss-react/mui'
 import Carousel from 'react-material-ui-carousel'
 
 
-import TemplateDefault from '../../src/templates/Default'
+import TemplateDefault from '../../../src/templates/Default'
+import dbConnect from '../../../src/utils/dbConnect'
+import ProductsModel from '../../../src/models/products'
+import { formatCurrency } from '../../../src/utils/currency'
 import {
   FavoriteIconButton,
-  LocationIconFilled
-} from '../../src/icons'
-import theme from '../../src/theme'
+} from '../../../src/icons'
+import theme from '../../../src/theme'
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -44,7 +46,7 @@ const useStyles = makeStyles()((theme) => {
 
 })
 
-const Products = () => {
+const Products = ({ product }) => {
   const { classes } = useStyles()
 
   return (
@@ -81,26 +83,25 @@ const Products = () => {
                   }
                 }}
               >
-                <Card
-                className={classes.card}
-                elevation={0}
-                >
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image='https://source.unsplash.com/random?a=1'
-                    title="Image title"
-                  />
-                </Card>
-                <Card
-                className={classes.card}
-                elevation={0}
-                >
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image='https://source.unsplash.com/random?a=2'
-                    title="Image title"
-                  />
-                </Card>
+                {
+                  product.files.map(file => (
+                    <Card
+                    key={file.name}
+                    className={classes.card}
+                    elevation={0}
+                    >
+                      <CardMedia
+                        className={classes.cardMedia}
+                        image={`/uploads/${file.name}`}
+                        title={product.title}
+                        sx={{
+                          backgroundSize: 'contain',
+                          backgroundColor: '#b5b5b5'
+                        }}
+                      />
+                    </Card>
+                  ))
+                }
               </Carousel>
             </Box>
             <Box className={classes.box}>
@@ -108,12 +109,12 @@ const Products = () => {
                 Posted January 22th, 2023
               </Typography>
               <Typography component="h4" variant="h4" className={classes.productName}>
-                Playstation 4 pro 1TB 4K excellent condition
+                {product.title}
               </Typography>
               <Typography component="h4" variant="h4" className={classes.price}>
-                180 €
+                {formatCurrency(product.price)}
               </Typography>
-              <Chip label="Category" />
+              <Chip label={product.category} />
               <FavoriteIconButton />
             </Box>
             <Box className={classes.box}>
@@ -121,27 +122,29 @@ const Products = () => {
                 Description
               </Typography>
               <Typography component="p" variant="body2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu neque tempus orci luctus sagittis a et justo. Donec ac augue vitae lacus eleifend porttitor condimentum ornare quam. Morbi tristique erat sit amet erat posuere maximus. Nunc at convallis turpis, eu suscipit erat. Integer vitae turpis efficitur, imperdiet orci id, pretium risus. Mauris nulla leo, consectetur dictum orci nec, semper accumsan quam. Aliquam tempus varius ligula in ultricies. Sed at diam tempus, laoreet quam sit amet, auctor metus. Maecenas quis diam at magna efficitur euismod et eget sem. Donec a nibh tortor. Aliquam lobortis eget ex sit amet aliquam. Phasellus turpis odio, luctus at enim in, interdum ullamcorper odio. Nam ante tortor, pharetra eu fringilla eget, fermentum sed augue. Morbi tempor tortor a erat vehicula, sed convallis quam pellentesque.
+                {product.description}
               </Typography>
             </Box>
           </Grid>
           <Grid item xs={4}>
             <Card className={classes.box} elevation={0}>
               <CardHeader avatar={
-                <Avatar>F</Avatar>
+                <Avatar src={product.user.image}>
+                  {product.user.image || product.user.name[0]}
+                </Avatar>
               }
-              title="Fulano de Tal"
-              subheader="fulanodetal@gmail.com"
+              title={product.user.name}
+              subheader={product.user.email}
               />
               <CardMedia
-                image="https://source.unsplash.com/random"
-                title="Fulano de Tal"
+                image={product.user.image}
+                title={product.user.name}
               />
             </Card>
 
             <Box className={classes.box}>
               <Typography component="h6" variant="h6">
-                Location
+                {product.city} - {product.district}
               </Typography>
             </Box>
           </Grid>
@@ -149,6 +152,20 @@ const Products = () => {
       </Container>
     </TemplateDefault>
   )
+}
+
+export async function getServerSideProps({ query }){
+  const { id } = query
+
+  await dbConnect()
+
+  const product = await ProductsModel.findOne({ _id: id })
+
+  return {
+    props: {
+      product: JSON.parse(JSON.stringify(product))
+    }
+  }
 }
 
 export default Products
