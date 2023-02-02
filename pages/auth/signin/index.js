@@ -24,12 +24,12 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useFormik } from 'formik'
 
 import TemplateFullScreen from '../../../src/templates/FullScreen'
-import { initialValues, validationSchema } from './formValues'
+import { initialValues, validationSchema} from './formValues'
 import theme from '../../../src/theme'
 import useToasty from '../../../src/contexts/Toasty'
-import useStyles from '../../../styles/signinStyles'
+import useStyles from './styles'
 
-const SignIn = ({ VERCEL_URL }) => {
+const SignIn = ({ APP_URL }) => {
   const { classes } = useStyles()
   const router = useRouter()
   const { setToasty } = useToasty()
@@ -46,7 +46,7 @@ const SignIn = ({ VERCEL_URL }) => {
 
   const handleGoogleLogin = () => {
     signIn('google',{
-      callbackUrl: `${VERCEL_URL}/user/dashboard`
+      callbackUrl: `${APP_URL}/user/dashboard`
     })
   }
 
@@ -58,7 +58,7 @@ const SignIn = ({ VERCEL_URL }) => {
       signIn('credentials', {
         email: values.email,
         password: values.password,
-        callbackUrl: `${VERCEL_URL}/user/dashboard`
+        callbackUrl: `${APP_URL}/user/dashboard`
       })
     }
   })
@@ -228,9 +228,9 @@ const SignIn = ({ VERCEL_URL }) => {
 }
 
 export async function getServerSideProps() {
-  const VERCEL_URL = process.env.VERCEL_URL
+  const APP_URL = process.env.APP_URL
   return {
-    props: { VERCEL_URL }
+    props: { APP_URL }
   }
 }
 

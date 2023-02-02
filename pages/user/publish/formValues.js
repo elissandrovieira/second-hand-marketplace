@@ -48,9 +48,3 @@ export const validationSchema = yup.object({
     .required('Upload image is required')
     .min(1, 'Upload at least one image'),
 })
-
-export default function formValues () {
-  return(
-    <></>
-  )
-}

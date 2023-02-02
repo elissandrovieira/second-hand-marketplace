@@ -25,9 +25,3 @@ confirmPass: yup.string()
 .oneOf([yup.ref('password'), null], 'Passwords must match')
 
 })
-
-export default function formValues () {
-  return(
-    <></>
-  )
-}

@@ -12,7 +12,7 @@ import {
   FormHelperText,
   IconButton,
   InputAdornment,
-  InputLabel,eeeeeeeeeeeee
+  InputLabel,
   OutlinedInput,
   Typography,
   CircularProgress,
@@ -23,10 +23,10 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useFormik } from 'formik'
 
 import TemplateFullScreen from '../../../src/templates/FullScreen'
-import { initialValues, validationSchema } from './formValues'
+import { initialValues, validationSchema} from './formValues'
 import theme from '../../../src/theme'
 import useToasty from '../../../src/contexts/Toasty'
-import useStyles from '../../../styles/signupStyles'
+import useStyles from './styles'
 
 const SignUp = () => {
   const { classes } = useStyles()

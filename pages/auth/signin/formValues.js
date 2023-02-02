@@ -18,9 +18,3 @@ password: yup.string()
 .min(8, 'Password must be 8 characters.'),
 
 })
-
-export default function formValues () {
-  return(
-    <></>
-  )
-}
