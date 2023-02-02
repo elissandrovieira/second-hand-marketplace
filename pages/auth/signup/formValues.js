@@ -8,7 +8,7 @@ export const initialValues = {
   
   }
   
-const validationSchema = yup.object({
+export const validationSchema = yup.object({
 name: yup.string()
 .required('This field is required'),
 
@@ -26,4 +26,8 @@ confirmPass: yup.string()
 
 })
 
-export default validationSchema
+export default function formValues () {
+  return(
+    <></>
+  )
+}

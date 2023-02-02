@@ -8,7 +8,7 @@ export const initialValues = {
   
   }
   
- const validationSchema = yup.object({
+export const validationSchema = yup.object({
 email: yup.string()
 .required('This field is required')
 .email('Enter a valid E-mail'),
@@ -19,4 +19,8 @@ password: yup.string()
 
 })
 
-export default validationSchema
+export default function formValues () {
+  return(
+    <></>
+  )
+}
