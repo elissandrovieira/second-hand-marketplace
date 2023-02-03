@@ -37,7 +37,7 @@ export default NextAuth({
   callbacks: {
     async jwt (token, user) {
       if (user) {
-        token.uid = user.id;
+        token.uid = user.id
       }
 
       return Promise.resolve(token)
@@ -50,5 +50,6 @@ export default NextAuth({
     }
   },
  
-  database: process.env.MONGO_URI,
+
+  database: process.env.MONGO_URI
 })
