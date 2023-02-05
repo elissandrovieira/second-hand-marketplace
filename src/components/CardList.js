@@ -57,7 +57,10 @@ import {
             title={title}
             />
             <CardContent sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-            <Typography variant="h5" component="h3">
+            <Typography variant="h5" component="h3" sx={{
+              height: "35px",
+              overflow: "hidden"
+            }}>
                 {title}
             </Typography>
             <Box className={classes.subtitle}>

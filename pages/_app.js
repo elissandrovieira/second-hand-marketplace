@@ -18,7 +18,7 @@ export default function MyApp (props) {
     <CacheProvider value={emotionCache}>
       <Head>
         <title>Second-Hand</title>
-        <meta name="viewport" content="minimun-scale-1, initial-scale-1, width-device-width" />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Provider session={pageProps.session}>
         <ThemeProvider theme={theme}>

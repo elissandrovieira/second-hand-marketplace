@@ -58,10 +58,11 @@ const List = ({ products, query }) => {
 
 
   const [list, setList] = useState({
-    listStatus: true,
-    listIconColor: theme.palette.secondary.main,
-    gridIconColor: theme.palette.primary.main,
+    listStatus: false,
+    listIconColor: theme.palette.primary.main,
+    gridIconColor: theme.palette.secondary.main,
   })
+
 
   const handleChangeGrid = () => {
     setList({
@@ -89,7 +90,12 @@ const List = ({ products, query }) => {
           <Typography component="h6" variant="h6">
             {`Showing ${products.length} results for "${query}"`}
           </Typography>
-          <Box>
+          <Box sx={{
+            display:{
+              xs: "none",
+              sm: "block"
+            }
+          }}>
             <IconButton onClick={() => handleChangeGrid()}>
               <DrawerIcon sx={{
                 color: list.listIconColor

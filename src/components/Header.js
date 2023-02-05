@@ -77,11 +77,17 @@ export default function Header() {
               </Box>
             </Link>
             <Box>
-              <Link href={session ? '/user/publish' : '/auth/signin'} passHref legacyBehavior>
-                <Button color="inherit" variant='outlined'>
-                  Post & Sell
-                </Button>
-              </Link>
+              { session
+                ? (
+                    null
+                ) : (
+                  <Link href="/auth/signin" passHref legacyBehavior>
+                    <Button color="inherit" variant='outlined'>
+                      Post & Sell
+                    </Button>
+                  </Link>
+                )
+              }
               {
                 session
                 ? (
@@ -111,7 +117,11 @@ export default function Header() {
                         }
                         <Typography variant="subtitle2" sx={{
                           marginLeft: 1,
-                          color: theme.palette.secondary.main
+                          color: theme.palette.secondary.main,
+                          display: {
+                            xs: "none",
+                            sm: "block"
+                          }
                         }} >
                           {session.user.name}
                         </Typography>

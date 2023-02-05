@@ -62,7 +62,7 @@ const Products = ({ product }) => {
     <TemplateDefault>
       <Container maxWidth="lg">
         <Grid container spacing={3}>
-          <Grid item xs={8}>
+          <Grid item sm={8}>
             <Box className={classes.box}>
               <Carousel
                 autoPlay={false}
@@ -139,7 +139,7 @@ const Products = ({ product }) => {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item sm={4}>
             <Card className={classes.box} elevation={0}>
               <CardHeader avatar={
                 <Avatar src={product.user.image}>

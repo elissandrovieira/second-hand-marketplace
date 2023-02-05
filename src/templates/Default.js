@@ -9,7 +9,8 @@ const Default = ({ children }) => {
     <>
       <Header />
       <Box sx={{
-        padding: theme.spacing(6, 0, 6)
+        padding: theme.spacing(6, 0, 6),
+        overflow: "auto"
       }}>
         {children}
       </Box>
